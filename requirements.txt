@@ -1,0 +1,4 @@
+imageio==2.9.0
+moviepy==1.0.3
+win_unicode_console==0.5
+PyQt5==5.15.0
