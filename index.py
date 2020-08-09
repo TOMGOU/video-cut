@@ -86,7 +86,7 @@ class login(QWidget):
         stop_time = self.stop_le.text().strip()#获取剪切的结束时间
         video = VideoFileClip(source)#视频文件加载
         video = video.subclip(int(start_time), int(stop_time))#执行剪切操作
-        video.to_videofile(target, fps=20, remove_temp=True)#输出文件
+        video.to_videofile(target, fps=20, remove_temp=True, audio=True)#输出文件
         self.result_le.setText("ok!")#输出文件后界面返回OK
         self.result_le.setStyleSheet("color:red;font-size:40px")#设置OK颜色为红色，大小为四十像素
         self.result_le.setAlignment(Qt.AlignCenter)#OK在指定框内居中
