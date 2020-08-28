@@ -56,8 +56,6 @@ class login(QWidget):
         self.save_btn.resize(140, 30)
         self.save_btn.clicked.connect(self.addNum)
 
- 
-
         #执行成功返回值显示位置设置
         self.result_le = QLabel(self)
         self.result_le.move(30, 270)
