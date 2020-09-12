@@ -166,10 +166,11 @@ class MyThread(QThread):
     videoNameList = videoList['full_file_name']
     for index in range(len(videoUrlList)):
       clipStr = 'crop=iw:ih/2'
+      fontfile = 'font/NotoSansCJKsc-Black.otf'
       padStr = f'pad=iw:ih+588:0:294:{ self.bgColor }'
-      text1 = f'drawtext="fontfile=gb.ttf:text={ self.text1 }:x=(w-tw)/2:y=100:fontcolor={ self.fontColor }:fontsize=30"'
-      text2 = f'drawtext="fontfile=gb.ttf:text={ self.text2 }:x=(w-tw)/2:y=170:fontcolor={ self.fontColor }:fontsize=30"'
-      text3 = f'drawtext="fontfile=gb.ttf:text={ self.text3 }:x=(w-tw)/2:y=240:fontcolor={ self.fontColor }:fontsize=30"'
+      text1 = f'drawtext="fontfile={ fontfile }:text={ self.text1 }:x=(w-tw)/2:y=100:fontcolor={ self.fontColor }:fontsize=30"'
+      text2 = f'drawtext="fontfile={ fontfile }:text={ self.text2 }:x=(w-tw)/2:y=170:fontcolor={ self.fontColor }:fontsize=30"'
+      text3 = f'drawtext="fontfile={ fontfile }:text={ self.text3 }:x=(w-tw)/2:y=240:fontcolor={ self.fontColor }:fontsize=30"'
       output = f'{ self.savePath }/{ videoNameList[index] }'
       cmdStr = f'ffmpeg -y  -i  { videoUrlList[index] }  -vf [in]{ clipStr },{ padStr },{ text1 },{ text2 },{ text3 }[out] { output }'
       os.popen(cmdStr)
@@ -177,7 +178,7 @@ class MyThread(QThread):
     return '剪辑完成！'
   
   def file_name(self, file_dir):   
-    L={'file_name': [], 'url_name': [], 'full_file_name': []}  
+    L={'file_name': [], 'url_name': [], 'full_file_name': []}
     for root, dirs, files in os.walk(file_dir):
       for file in files:  
         if os.path.splitext(file)[1] == '.mp4' or os.path.splitext(file)[1] == '.webm':  
