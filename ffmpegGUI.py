@@ -156,11 +156,11 @@ class MyThread(QThread):
     self.set_label_func = set_label_func
 
   def run(self): #线程执行函数
-    string = self.fetchData()
+    string = self.videoCut()
     self.set_label_func(string)
     self.my_signal.emit(True)  #释放自定义的信号
 
-  def fetchData(self):
+  def videoCut(self):
     videoList = self.file_name(r'/Users/tangyong/test/automation/video-cut/original_videos')
     videoUrlList = videoList['url_name']
     videoNameList = videoList['full_file_name']
