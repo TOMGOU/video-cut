@@ -161,7 +161,7 @@ class MyThread(QThread):
     self.my_signal.emit(True)  #释放自定义的信号
 
   def videoCut(self):
-    videoList = self.file_name(r'/Users/tangyong/test/automation/video-cut/original_videos')
+    videoList = self.file_name(self.sourcePath)
     videoUrlList = videoList['url_name']
     videoNameList = videoList['full_file_name']
     for index in range(len(videoUrlList)):
