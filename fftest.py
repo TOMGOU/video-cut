@@ -1,5 +1,6 @@
 from moviepy.editor import *
 FONT_URL = './仿宋_GB2312.ttf'
+import os
 
 class VideoCut:
   def __init__(self):
@@ -11,14 +12,15 @@ class VideoCut:
     videoUrlList = videoList['url_name']
     videoNameList = videoList['full_file_name']
     for index in range(len(videoUrlList)):
-      vfc = VideoFileClip(videoUrlList[index])
-      size = vfc.size
-      duration = vfc.duration
-      clip = vfc.crop(x_center = size[0] / 2, y_center = size[1] / 2, width = size[0], height = size[1] - 200)
-      txt_clip = TextClip("@九月半a", font=FONT_URL, fontsize=35, color='red', bg_color='white')
-      txt_clip = txt_clip.set_pos((0.02, 0.84), relative=True).set_duration(duration)
-      videos = CompositeVideoClip([clip, txt_clip])
-      videos.write_videofile(r'/Users/tangyong/test/automation/video-cut/video/' + videoNameList[index], fps=120, codec='mpeg4', bitrate='10000k', audio=False)
+      clipStr = 'crop=iw:ih/2'
+      padStr = 'pad=iw:ih+588:0:294:yellow'
+      text1 = 'drawtext="fontfile=gb.ttf:text=慢下来，在微观世界里看诗和远方:x=(w-tw)/2:y=h-270:fontcolor=red:fontsize=30"'
+      text2 = 'drawtext="fontfile=gb.ttf:text=一个相机分隔出两个世界:x=(w-tw)/2:y=70:fontcolor=green:fontsize=30"'
+      text3 = 'drawtext="fontfile=gb.ttf:text=门外是繁华的现代都市:x=(w-tw)/2:y=140:fontcolor=green:fontsize=30"'
+      text4 = 'drawtext="fontfile=gb.ttf:text=门里是幽静如画的世外桃源:x=(w-tw)/2:y=210:fontcolor=green:fontsize=30"'
+      output = f'/Users/tangyong/test/automation/video-cut/finished/{ videoNameList[index] }'
+      cmdStr = f'ffmpeg -y  -i  { videoUrlList[index] }  -vf [in]{ clipStr },{ padStr },{ text1 },{ text2 },{ text3 },{ text4 }[out] { output }'
+      os.popen(cmdStr)
 
   def file_name(self, file_dir):   
     L={'file_name': [], 'url_name': [], 'full_file_name': []}  
