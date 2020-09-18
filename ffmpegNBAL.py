@@ -54,7 +54,7 @@ class VideoClip(QWidget):
     self.start_size_btn = QPushButton('字体大小：', self)
     self.start_size_btn.move(430, 120)
     self.start_size_btn.resize(100,30)
-    self.start_size_le = QLineEdit('90', self)
+    self.start_size_le = QLineEdit('50', self)
     self.start_size_le.move(530, 120)
     self.start_size_le.resize(40,30)
 
@@ -81,7 +81,7 @@ class VideoClip(QWidget):
     self.widthLabel.move(30, 210)
     self.widthLabel.resize(100, 30)
     self.widthLabel.setText("剪切宽度：")
-    self.width_le = QLineEdit('0', self)
+    self.width_le = QLineEdit('800', self)
     self.width_le.move(120, 210)
     self.width_le.resize(150, 30)
 
@@ -90,7 +90,7 @@ class VideoClip(QWidget):
     self.heightLabel.move(330, 210)
     self.heightLabel.resize(100, 30)
     self.heightLabel.setText("剪切高度：")
-    self.height_le = QLineEdit('0', self)
+    self.height_le = QLineEdit('130', self)
     self.height_le.move(420, 210)
     self.height_le.resize(150, 30)
 
@@ -99,7 +99,7 @@ class VideoClip(QWidget):
     self.startXLabel.move(30, 255)
     self.startXLabel.resize(100, 30)
     self.startXLabel.setText("X开始坐标：")
-    self.startX_le = QLineEdit('0', self)
+    self.startX_le = QLineEdit('400', self)
     self.startX_le.move(120, 255)
     self.startX_le.resize(150, 30)
 
@@ -120,7 +120,7 @@ class VideoClip(QWidget):
     self.text1_le = QLineEdit('湖人大胜马赛克', self)
     self.text1_le.move(120, 300)
     self.text1_le.resize(400, 30)
-    self.text1height_le = QLineEdit('250', self)
+    self.text1height_le = QLineEdit('50', self)
     self.text1height_le.move(525, 300)
     self.text1height_le.resize(45, 30)
 
@@ -129,7 +129,7 @@ class VideoClip(QWidget):
     self.text2Label.move(30, 345)
     self.text2Label.resize(100, 30)
     self.text2Label.setText("第二段文案：")
-    self.text2_le = QLineEdit('同情威少5分钟', self)
+    self.text2_le = QLineEdit('', self)
     self.text2_le.move(120, 345)
     self.text2_le.resize(400, 30)
     self.text2height_le = QLineEdit('400', self)
@@ -141,7 +141,7 @@ class VideoClip(QWidget):
     self.text3Label.move(30, 390)
     self.text3Label.resize(100, 30)
     self.text3Label.setText("第三段文案：")
-    self.text3_le = QLineEdit('湖人总冠军，没人有意见吧？', self)
+    self.text3_le = QLineEdit('', self)
     self.text3_le.move(120, 390)
     self.text3_le.resize(400, 30)
     self.text3height_le = QLineEdit('550', self)
@@ -256,7 +256,7 @@ class MyThread(QThread):
     text1 = f'drawtext="fontfile=gb.ttf:text={ self.text1 }:x=(w-tw)/2:y={ self.text1height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
     text2 = f'drawtext="fontfile=gb.ttf:text={ self.text2 }:x=(w-tw)/2:y={ self.text2height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
     text3 = f'drawtext="fontfile=gb.ttf:text={ self.text3 }:x=(w-tw)/2:y={ self.text3height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
-    cmdStr = f'ffmpeg -y -ss { self.startTime } -i  { self.sourcePath } -to { self.durationTime } -vf [in]{ clip },{ padStr },{ text1 },{ text2 },{ text3 }[out] { self.savePath }'
+    cmdStr = f'ffmpeg -y -ss { self.startTime } -i  { self.sourcePath } -to { self.durationTime } -vf [in]{ clip },{ padStr },hflip,{ text1 },{ text2 },{ text3 }[out] { self.savePath }'
     os.popen(cmdStr)
     return '视频剪辑中...'
 
