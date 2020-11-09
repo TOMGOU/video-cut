@@ -268,11 +268,11 @@ class MyThread(QThread):
     for index in range(len(videoUrlList)):
       duration = VideoFileClip(videoUrlList[index]).duration
       clip = f'crop="{ self.scaleRate }*iw":"{ self.scaleRate }*ih":iw/2:ih/2'
-      text1 = f'drawtext="fontfile=ff.ttf:text={ self.text1 }:x=(w-tw)/2:y={ self.text1height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
-      text2 = f'drawtext="fontfile=ff.ttf:text={ self.text2 }:x=(w-tw)/2:y={ self.text2height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
+      # text1 = f'drawtext="fontfile=ff.ttf:text={ self.text1 }:x=(w-tw)/2:y={ self.text1height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
+      # text2 = f'drawtext="fontfile=ff.ttf:text={ self.text2 }:x=(w-tw)/2:y={ self.text2height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
       output = f'{ self.savePath }/{ videoNameList[index] }'
       # videoFilter = f'[in]{ clip },{ text1 },{ text2 },eq=contrast={ self.contrast }:brightness={ self.brightness }:saturation={ self.saturation },unsharp=luma_msize_x=7:luma_msize_y=7:luma_amount=2.5,fade=in:0:90,vignette="PI/4+random(1)*PI/50":eval=frame,hue="H=2*PI*t:s=sin(2*PI*t)+1",noise=alls=20:allf=t+u,delogo=x=10:y=10:w=150:h=100[out]'
-      VF = f'[in]{ clip },{ text1 },{ text2 },eq=contrast={ self.contrast }:brightness={ self.brightness }:saturation={ self.saturation }'
+      VF = f'[in]{ clip },eq=contrast={ self.contrast }:brightness={ self.brightness }:saturation={ self.saturation }'
       videoFilter = f'{ VF },hflip' if self.minor else VF
       cmdStr = f'ffmpeg -y -ss { self.startTime } -i { videoUrlList[index] } -to { duration - self.startTime - self.durationTime } -filter:v "setpts={ round(1/self.speedup, 2) }*PTS" -filter:a "atempo={ self.speedup }" -vf { videoFilter } { output }'
       # print(cmdStr)
