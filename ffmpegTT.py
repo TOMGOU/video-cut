@@ -21,7 +21,7 @@ class VideoClip(QWidget):
     self.source_btn.move(20, 30)
     self.source_btn.resize(100,30)
     self.source_btn.clicked.connect(self.select_source)
-    self.source_le = QLineEdit('/Users/tangyong/test/automation/video-cut/original_videos', self)
+    self.source_le = QLineEdit(r'C:\demo\02_SUMMARY\29_automation\video-cut\origin', self)
     self.source_le.move(120, 30)
     self.source_le.resize(450,30)
 
@@ -30,7 +30,7 @@ class VideoClip(QWidget):
     self.save_btn.move(20, 75)
     self.save_btn.resize(100,30)
     self.save_btn.clicked.connect(self.select_save)
-    self.save_le = QLineEdit('/Users/tangyong/test/automation/video-cut/test', self)
+    self.save_le = QLineEdit(r'C:\demo\02_SUMMARY\29_automation\video-cut\test', self)
     self.save_le.move(120, 75)
     self.save_le.resize(450,30)
 
