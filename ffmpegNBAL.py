@@ -54,7 +54,7 @@ class VideoClip(QWidget):
     self.start_size_btn = QPushButton('字体大小：', self)
     self.start_size_btn.move(430, 120)
     self.start_size_btn.resize(100,30)
-    self.start_size_le = QLineEdit('90', self)
+    self.start_size_le = QLineEdit('30', self)
     self.start_size_le.move(530, 120)
     self.start_size_le.resize(40,30)
 
@@ -63,7 +63,7 @@ class VideoClip(QWidget):
     self.startLabel.move(30, 165)
     self.startLabel.resize(100, 30)
     self.startLabel.setText("开始时间(s)：")
-    self.start_le = QLineEdit('0', self)
+    self.start_le = QLineEdit('5', self)
     self.start_le.move(120, 165)
     self.start_le.resize(150, 30)
 
@@ -72,7 +72,7 @@ class VideoClip(QWidget):
     self.durationLabel.move(330, 165)
     self.durationLabel.resize(100, 30)
     self.durationLabel.setText("视频时间(s)：")
-    self.duration_le = QLineEdit('10', self)
+    self.duration_le = QLineEdit('20', self)
     self.duration_le.move(420, 165)
     self.duration_le.resize(150, 30)
 
@@ -81,7 +81,8 @@ class VideoClip(QWidget):
     self.widthLabel.move(30, 210)
     self.widthLabel.resize(100, 30)
     self.widthLabel.setText("剪切宽度：")
-    self.width_le = QLineEdit('0', self)
+    self.width_le = QLineEdit('948', self)
+    # self.width_le = QLineEdit('874', self)
     self.width_le.move(120, 210)
     self.width_le.resize(150, 30)
 
@@ -90,7 +91,7 @@ class VideoClip(QWidget):
     self.heightLabel.move(330, 210)
     self.heightLabel.resize(100, 30)
     self.heightLabel.setText("剪切高度：")
-    self.height_le = QLineEdit('0', self)
+    self.height_le = QLineEdit('130', self)
     self.height_le.move(420, 210)
     self.height_le.resize(150, 30)
 
@@ -99,7 +100,8 @@ class VideoClip(QWidget):
     self.startXLabel.move(30, 255)
     self.startXLabel.resize(100, 30)
     self.startXLabel.setText("X开始坐标：")
-    self.startX_le = QLineEdit('0', self)
+    self.startX_le = QLineEdit('474', self)
+    # self.startX_le = QLineEdit('437', self)
     self.startX_le.move(120, 255)
     self.startX_le.resize(150, 30)
 
@@ -117,10 +119,10 @@ class VideoClip(QWidget):
     self.text1Label.move(30, 300)
     self.text1Label.resize(100, 30)
     self.text1Label.setText("第一段文案：")
-    self.text1_le = QLineEdit('湖人大胜马赛克', self)
+    self.text1_le = QLineEdit('Jimmy. Butler.', self)
     self.text1_le.move(120, 300)
     self.text1_le.resize(400, 30)
-    self.text1height_le = QLineEdit('250', self)
+    self.text1height_le = QLineEdit('50', self)
     self.text1height_le.move(525, 300)
     self.text1height_le.resize(45, 30)
 
@@ -132,7 +134,7 @@ class VideoClip(QWidget):
     self.text2_le = QLineEdit('', self)
     self.text2_le.move(120, 345)
     self.text2_le.resize(400, 30)
-    self.text2height_le = QLineEdit('400', self)
+    self.text2height_le = QLineEdit('100', self)
     self.text2height_le.move(525, 345)
     self.text2height_le.resize(45, 30)
 
@@ -144,7 +146,7 @@ class VideoClip(QWidget):
     self.text3_le = QLineEdit('', self)
     self.text3_le.move(120, 390)
     self.text3_le.resize(400, 30)
-    self.text3height_le = QLineEdit('550', self)
+    self.text3height_le = QLineEdit('150', self)
     self.text3height_le.move(525, 390)
     self.text3height_le.resize(45, 30)
 
@@ -214,8 +216,7 @@ class VideoClip(QWidget):
     text2height = int(self.text2height_le.text().strip())
     text3 = self.text3_le.text().strip()
     text3height = int(self.text3height_le.text().strip())
-    print(sourcePath, savePath, bgColor, fontColor, text1, text2, text3)
-    if self.switch and sourcePath != '' and savePath != '' and bgColor != '' and fontColor != '':
+    if self.switch and sourcePath != '' and savePath != '' and bgColor != '' and fontSize != '' and startTime != '' and durationTime != '' and width != '' and height != '' and startX != '' and startY != '':
       self.switch = False
       self.set_label_func('请耐心等待，正在打开浏览器！')
       self.my_thread = MyThread(sourcePath, savePath, bgColor, fontColor, fontSize, startTime, durationTime, width, height, startX, startY, text1, text1height, text2, text2height, text3, text3height, self.set_label_func)#实例化线程对象
@@ -253,11 +254,12 @@ class MyThread(QThread):
   def videoCut(self):
     clip = f'crop=iw-{ self.width }:ih-{ self.height }:{ self.startX }:{ self.startY }'
     padStr = f'pad=iw:16*iw/9:0:"(16*iw/9-ih)/2":{ self.bgColor }'
-    text1 = f'drawtext="fontfile=gb.ttf:text={ self.text1 }:x=(w-tw)/2:y={ self.text1height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
-    text2 = f'drawtext="fontfile=gb.ttf:text={ self.text2 }:x=(w-tw)/2:y={ self.text2height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
-    text3 = f'drawtext="fontfile=gb.ttf:text={ self.text3 }:x=(w-tw)/2:y={ self.text3height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
-    cmdStr = f'ffmpeg -y -ss { self.startTime } -i  { self.sourcePath } -to { self.durationTime } -vf [in]{ clip },{ padStr },{ text1 },{ text2 },{ text3 }[out] { self.savePath }'
+    text1 = f'drawtext="fontfile=ff.ttf:text={ self.text1 }:x=(w-tw)/2:y={ self.text1height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
+    text2 = f'drawtext="fontfile=ff.ttf:text={ self.text2 }:x=(w-tw)/2:y={ self.text2height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
+    text3 = f'drawtext="fontfile=ff.ttf:text={ self.text3 }:x=(w-tw)/2:y={ self.text3height }:fontcolor={ self.fontColor }:fontsize={ self.fontSize }"'
+    cmdStr = f'ffmpeg -y -ss { self.startTime } -i { self.sourcePath } -to { self.durationTime } -filter:v "setpts=1.01*PTS" -filter:a "atempo=0.99" -vf [in]{ clip },{ padStr },{ text1 },{ text2 },{ text3 },eq=contrast=1:brightness=0:saturation=3,unsharp[out] { self.savePath }'
     os.popen(cmdStr)
+    print(cmdStr)
     return '视频剪辑中...'
 
 if __name__=="__main__":
@@ -265,3 +267,9 @@ if __name__=="__main__":
   ex = VideoClip()
   ex.show()
   sys.exit(app.exec_())
+
+# ffmpeg -y -re -i HC.mp4 -re -i timer.mp4 -re -i timer.mp4 -re -i timer.mp4 -re -i timer.mp4 -filter_complex "[0:v] format=rgb24,setpts=PTS-STARTPTS,scale=664x1180,rotate=PI/6 [base];[1:v] format=yuva444p,colorchannelmixer=aa=0.1,setpts=PTS-STARTPTS,scale=332x590,rotate=5*PI/6 [upperleft]; [2:v] format=yuva444p,colorchannelmixer=aa=0.1,setpts=PTS-STARTPTS,scale=332x590,rotate=PI/6 [upperright]; [3:v] format=yuva444p,colorchannelmixer=aa=0.1,setpts=PTS-STARTPTS,scale=332x590,rotate=5*PI/6 [lowerleft]; [4:v] format=yuva444p,colorchannelmixer=aa=0.1,setpts=PTS-STARTPTS,scale=332x590 [lowerright]; [base][upperleft] overlay=shortest=1[tmp1];[tmp1][upperright] overlay=shortest=1:x=332 [tmp2]; [tmp2][lowerleft]overlay=shortest=1:y=590 [tmp3]; [tmp3][lowerright]overlay=shortest=1:x=332:y=590" -c:v libx264 output2.mp4
+
+# ffmpeg -y -re -i HC.mp4 -re -i timer.mp4 -filter_complex "[0:v] format=rgb24,setpts=PTS-STARTPTS,scale=332x590 [base];[1:v] format=yuva444p,colorchannelmixer=aa=0.1,setpts=PTS-STARTPTS,scale=213x120 [upperleft]; [base][upperleft] overlay=shortest=1" -c:v libx264 output.mp4
+
+# ffmpeg -y -re -i HC.mp4 -re -i timer.mp4 -re -i timer.mp4 -re -i timer.mp4 -re -i timer.mp4 -filter_complex "[0:v] format=rgb24,setpts=PTS-STARTPTS,scale=664x1180 [base];[1:v] format=yuva444p,colorchannelmixer=aa=0.05,setpts=PTS-STARTPTS,scale=332x590 [upperleft]; [2:v] format=yuva444p,colorchannelmixer=aa=0.05,setpts=PTS-STARTPTS,scale=332x590 [upperright]; [3:v] format=yuva444p,colorchannelmixer=aa=0.05,setpts=PTS-STARTPTS,scale=332x590 [lowerleft]; [4:v] format=yuva444p,colorchannelmixer=aa=0.05,setpts=PTS-STARTPTS,scale=332x590 [lowerright]; [base][upperleft] overlay=shortest=1[tmp1];[tmp1][upperright] overlay=shortest=1:x=332 [tmp2]; [tmp2][lowerleft]overlay=shortest=1:y=590 [tmp3]; [tmp3][lowerright]overlay=shortest=1:x=332:y=590" -c:v libx264 output2.mp4
